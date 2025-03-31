@@ -1,0 +1,27 @@
+
+#add entry into dhcp server lease-script=/system/script/run lease-script
+
+  
+#add script into scripts with name lease-script
+
+:global varitem [/ip/dhcp-server/lease find  where status=bound and dynamic]; 
+
+:global details [/ip dhcp-server lease get $varitem ];
+
+:global ipaddress [/ip/dhcp-server/lease get $varitem active-address];
+
+:global "active-mac-address" [/ip/dhcp-server/lease get $varitem active-mac-address];
+
+:global hostName [/ip/dhcp-server/lease/get $varitem host-name];
+
+:global "last-seen" [/ip/dhcp-server/lease/get $varitem last-seen];
+
+:put "IP atribuido $ipaddress";
+
+:put "mac $"active-mac-address"";
+
+:put "ultima vez visto $last-seen";
+
+:put "host $hostName";
+
+/ip/dhcp-server/lease/ add address=$ipaddress mac-address=$"active-mac-address" comment="quest" block-access=yes
